@@ -11,7 +11,7 @@
 param(
   [Parameter(Mandatory=$true)][string]$SourceImg,
   [string]$Xdelta = ".\xdelta.exe",
-  [string]$Patch  = ".\release\srw2-standalone-korean-v0.9.3.xdelta",
+  [string]$Patch  = ".\release\srw2-standalone-korean-v0.9.4.xdelta",
   [string]$OutName = "Super Robot Taisen 2 (Korean)"
 )
 

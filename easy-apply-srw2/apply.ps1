@@ -1,12 +1,12 @@
 ﻿#requires -version 3
-# 제2차 슈퍼로봇대전 단독판(별매 CD, SLPS_02406) 한글패치 v0.9.3 적용 엔진
+# 제2차 슈퍼로봇대전 단독판(별매 CD, SLPS_02406) 한글패치 v0.9.4 적용 엔진
 # 이 스크립트는 "한글패치 적용하기.bat" 이 자동으로 실행합니다.
 
 $ErrorActionPreference = 'Stop'
 
 $root    = $PSScriptRoot
 $xdelta  = Join-Path $root 'xdelta.exe'
-$patch   = Join-Path $root 'srw2-standalone-korean-v0.9.3.xdelta'
+$patch   = Join-Path $root 'srw2-standalone-korean-v0.9.4.xdelta'
 
 $T1NAME  = 'Super Robot Taisen 2.img'
 $OUTNAME = 'Super Robot Taisen 2 (Korean).img'
@@ -31,12 +31,12 @@ function Fail([string]$msg) {
 try {
     Write-Host ''
     Write-Host '============================================================'
-    Write-Host '   제2차 슈퍼로봇대전 단독판(별매 CD) 한글패치 v0.9.3'
+    Write-Host '   제2차 슈퍼로봇대전 단독판(별매 CD) 한글패치 v0.9.4'
     Write-Host '============================================================'
     Write-Host ''
 
     if (-not (Test-Path -LiteralPath $xdelta)) { Fail "xdelta.exe 가 없습니다. 패치 파일들을 한 폴더에 함께 두세요." }
-    if (-not (Test-Path -LiteralPath $patch))  { Fail "srw2-standalone-korean-v0.9.3.xdelta 가 없습니다." }
+    if (-not (Test-Path -LiteralPath $patch))  { Fail "srw2-standalone-korean-v0.9.4.xdelta 가 없습니다." }
 
     # --- 원본 .bin 찾기: 드래그앤드롭 인자 > 표준 파일명 > 폴더 내 유일한 .bin ---
     $src = $null

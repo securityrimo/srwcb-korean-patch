@@ -12,7 +12,7 @@ sys.path.insert(0,"D:/ps1/roms/SRWCB/korean_patch/tools")
 from patch_raw_track_exes import SECTOR_SIZE, USER_DATA_OFFSET, USER_DATA_SIZE, rebuild_mode2_form1
 
 SRW3="D:/ps1/roms/SRW3"
-CBR="D:/ps1/roms/SRWCB/korean_patch/test_build/third_korean/rebuilt"
+CBR="D:/ps1/roms/SRWCB/korean_patch/test_build/third_full/rebuilt"
 SRC_IMG=f"{SRW3}/Dai 3 Ji Super Robot Taisen.bin"
 OUT_DIR=f"{SRW3}/port"
 import os; os.makedirs(OUT_DIR,exist_ok=True)
