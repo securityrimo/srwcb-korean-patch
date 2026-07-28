@@ -1,0 +1,8 @@
+85fd79443a34955b7d23cde34003b7cccf6de825ca9f324cc23346a6ffcdef3c *srwcb-second-third-ex-korean-v0.10.0.xdelta
+0f8e06b0a75dd4bc834fcae18f3b8cb5c8ecd2951c375d880bb98db2bfbc2cda *srwcb-cb-korean-v0.10.0-easy-apply.zip
+3ebfb7e833f73769244edb7d62710575d2fc6d96727da8cdca977f7dfe2d3c1c *srwcb-cb-korean-v0.10.0.cue
+52fe584c74246c5bfca2cd351ded5bb4c46bb28a9ce19634a1a4a5fab6491ce5 *srwex-standalone-korean-v0.10.0.xdelta
+481e1c3c11115b8382e050573db5d635e3ff62664749a3c8e321acfff9a88198 *srwex-standalone-korean-v0.10.0-easy-apply.zip
+90b97fcd84db58299f7943d1bf596abd8ed10d29f5c3655519e0423060eb1171 *srwex-standalone-korean-v0.10.0.cue
+5840bd86f75752c8b9ee6e0945260212342ca43727f9c0ad5481eb8407d1f158 *srw3-standalone-korean-v0.10.0.xdelta
+6ea4242a800c96aff3a7b038e5bffb8f1f35ecb767eb42524170486e19d82028 *srw2-standalone-korean-v0.10.0.xdelta
