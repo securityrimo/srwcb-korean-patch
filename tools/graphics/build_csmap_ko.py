@@ -74,10 +74,10 @@ def main():
 
     for name, off, wb, rows, ko in M.STRIPS:
         src = M.read_strip(body, off, wb, rows)
-        grad = M.row_gradient(src)
-        px, size = M.build(ko, wb * 2, rows, grad)
+        band = M.text_band(src)
+        px, size = M.build(ko, wb * 2, rows, band)
         M.write_strip(body, off, wb, px)
-        print(f"  {name} @{off} {wb*2}x{rows} <- '{ko}' ({size}px)")
+        print(f"  {name} @{off} {wb*2}x{rows} band={band} <- '{ko}' ({size}px)")
 
     after = tims(bytes(body))
     assert after == before, "TIM 목록이 바뀜 — 헤더를 침범했다"
