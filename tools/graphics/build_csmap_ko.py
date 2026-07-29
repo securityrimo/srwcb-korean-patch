@@ -26,6 +26,34 @@ def members(d):
     return n, [(t[2 * i] + 8 * i, t[2 * i + 1] + 8 * i + 4) for i in range(n // 2)]
 
 
+def tims(a):
+    """멤버 안의 표준 TIM 목록. 헤더가 하나라도 깨지면 이후가 통째로 사라지므로
+    패치 전후로 이 목록이 같은지 반드시 확인한다."""
+    out = []
+    i = 0
+    while i < len(a) - 8:
+        if struct.unpack_from("<I", a, i)[0] == 0x10:
+            fl = struct.unpack_from("<I", a, i + 4)[0]
+            if fl in (0, 1, 2, 3, 8, 9, 10, 11):
+                p = i + 8
+                ok = True
+                if fl & 8:
+                    bl = struct.unpack_from("<I", a, p)[0]
+                    if not (12 <= bl <= 0x10000) or p + bl > len(a): ok = False
+                    else: p += bl
+                if ok:
+                    bl = struct.unpack_from("<I", a, p)[0]
+                    if 12 <= bl <= 0x40000 and p + bl <= len(a):
+                        x, y, w, h = struct.unpack_from("<HHHH", a, p + 4)
+                        if w and h and w <= 1024 and h <= 512 and 12 + w * h * 2 == bl:
+                            bpp = [4, 8, 16, 24][fl & 3]
+                            out.append((i, bpp, w * (16 // bpp) if bpp < 16 else w, h,
+                                        x, y, p + 12, p + bl))
+                            i = p + bl; continue
+        i += 4
+    return out
+
+
 def main():
     d = open(SRC, "rb").read()
     n, ms = members(d)
@@ -34,12 +62,30 @@ def main():
     assert used == e - s, "멤버21 소비 길이 불일치"
     body = bytearray(raw)
 
+    before = tims(raw)
+    print(f"  TIM {len(before)}개: " + ", ".join(f"{t[2]}x{t[3]}@{t[0]}" for t in before))
+    # 각 스트립이 실제 TIM 픽셀 블록과 정확히 일치하는지 먼저 못 박는다
+    byoff = {t[6]: t for t in before}
+    for name, off, wb, rows, ko in M.STRIPS:
+        t2 = byoff.get(off)
+        assert t2 and t2[1] == 4 and t2[2] == wb * 2 and t2[3] == rows, \
+            f"{name}: TIM 픽셀 블록과 불일치 (off={off})"
+        assert t2[7] == off + wb * rows, f"{name}: 픽셀 끝 불일치"
+
     for name, off, wb, rows, ko in M.STRIPS:
         src = M.read_strip(body, off, wb, rows)
         grad = M.row_gradient(src)
         px, size = M.build(ko, wb * 2, rows, grad)
         M.write_strip(body, off, wb, px)
         print(f"  {name} @{off} {wb*2}x{rows} <- '{ko}' ({size}px)")
+
+    after = tims(bytes(body))
+    assert after == before, "TIM 목록이 바뀜 — 헤더를 침범했다"
+    ranges = [(o, o + wb * r) for _, o, wb, r, _ in M.STRIPS]
+    stray = [i for i in range(len(raw)) if raw[i] != body[i]
+             and not any(lo <= i < hi for lo, hi in ranges)]
+    assert not stray, f"스트립 밖 변경 {len(stray)}바이트 (예: {stray[:5]})"
+    print(f"  TIM 무결성 OK ({len(after)}개 동일), 스트립 밖 변경 0바이트")
 
     new = compress(bytes(body))
     room = e - s
